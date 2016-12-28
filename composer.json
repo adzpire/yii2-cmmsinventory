@@ -1,13 +1,13 @@
 {
-    "name": "adzpire/yii2-basicfilemanager",
-    "description": "Basic Filemanager",
+    "name": "adzpire/yii2-cmmsinventory",
+    "description": "pn psu comm-sci inventory system",
     "type": "yii2-extension",
     "keywords": ["yii2","extension"],
     "license": "GPL-3.0",
     "minimum-stability": "stable",
     "support": {
-        "source": "https://github.com/adzpire/yii2-basicfilemanager.git",
-        "issues": "https://github.com/adzpire/yii2-basicfilemanager/issues"
+        "source": "https://github.com/adzpire/yii2-cmmsinventory.git",
+        "issues": "https://github.com/adzpire/yii2-cmmsinventory/issues"
     },
     "authors": [
         {
@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "adzpire\\basicfilemanager\\": ""
+            "adzpire\\inventory\\": ""
         }
     },
     "extra": {
