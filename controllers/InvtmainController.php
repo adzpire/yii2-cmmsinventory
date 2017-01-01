@@ -1,15 +1,15 @@
 <?php
 
-namespace backend\modules\inventory\controllers;
+namespace adzpire\inventory\controllers;
 
 use Yii;
-use backend\modules\inventory\models\InvtMain;
-use backend\modules\inventory\models\InvtMainSearch;
-use backend\modules\inventory\models\InvtType;
-use backend\modules\inventory\models\InvtBudgettype;
-use backend\modules\inventory\models\InvtStatus;
-use backend\modules\inventory\models\InvtLochistory;
-use backend\modules\inventory\models\InvtStathistory;
+use adzpire\inventory\models\InvtMain;
+use adzpire\inventory\models\InvtMainSearch;
+use adzpire\inventory\models\InvtType;
+use adzpire\inventory\models\InvtBudgettype;
+use adzpire\inventory\models\InvtStatus;
+use adzpire\inventory\models\InvtLochistory;
+use adzpire\inventory\models\InvtStathistory;
 
 use backend\modules\location\models\MainLocation;
 

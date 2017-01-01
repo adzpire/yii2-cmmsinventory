@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\inventory\controllers;
+namespace adzpire\inventory\controllers;
 
 use yii\web\Controller;
 use yii\helpers\Url;

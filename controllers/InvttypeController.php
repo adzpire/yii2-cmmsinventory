@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\inventory\controllers;
+namespace adzpire\inventory\controllers;
 
 use Yii;
-use backend\modules\inventory\models\InvtType;
-use backend\modules\inventory\models\InvtTypeSearch;
+use adzpire\inventory\models\InvtType;
+use adzpire\inventory\models\InvtTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

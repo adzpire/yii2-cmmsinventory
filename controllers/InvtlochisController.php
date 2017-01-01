@@ -1,12 +1,14 @@
 <?php
 
-namespace backend\modules\inventory\controllers;
+namespace adzpire\inventory\controllers;
 
 use Yii;
-use backend\modules\inventory\models\InvtLochistory;
-use backend\modules\inventory\models\InvtLochistorySearch;
+use adzpire\inventory\models\InvtLochistory;
+use adzpire\inventory\models\InvtLochistorySearch;
+use adzpire\inventory\models\InvtMain;
+
 use backend\modules\location\models\MainLocation;
-use backend\modules\inventory\models\InvtMain;
+
 use backend\modules\person\models\Person;
 
 use yii\web\Controller;
