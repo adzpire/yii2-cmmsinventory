@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\inventory\models;
+namespace adzpire\inventory\models;
 
 use Yii;
 

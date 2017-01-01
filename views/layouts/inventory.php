@@ -195,9 +195,7 @@ $this->registerJs($js);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<?php $moduleID = \Yii::$app->controller->module->id;
-//print_r($module->id);
-?>
+<?php $moduleID = \Yii::$app->controller->module->id; ?>
 <?php
 $this->registerLinkTag([
     //'title' => 'Live News for Yii',
