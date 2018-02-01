@@ -1,6 +1,6 @@
 <?php
 
-namespace adzpire\inventory\controllers;
+namespace backend\modules\inventory\controllers;
 
 use yii\web\Controller;
 use yii\helpers\Url;
@@ -29,7 +29,7 @@ class DefaultController extends Controller
     {
         $cookie = \Yii::$app->response->cookies;
         $cookie->add(new \yii\web\Cookie([
-            'name' => 'inventorymoduleversion',
+            'name' => \Yii::$app->controller->module->params['modulecookies'],
             'value' => \Yii::$app->controller->module->params['ModuleVers'],
             'expire' => time() + (60*60*24*30),
         ]));

@@ -1,6 +1,6 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 
@@ -46,8 +46,8 @@ class InvtStathistory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'invt_ID' => 'inventoryID',
-            'invt_statID' => 'statusID',
+            'invt_ID' => 'ชื่อพัสดุ/ครุภัณฑ์',
+            'invt_statID' => 'สถานะ',
             'date' => 'วันที่บันทึก',
         ];
     }

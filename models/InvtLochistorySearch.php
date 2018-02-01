@@ -1,11 +1,11 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use adzpire\inventory\models\InvtLochistory;
+use backend\modules\inventory\models\InvtLochistory;
 
 /**
  * InvtLochistorySearch represents the model behind the search form about `backend\modules\inventory\models\InvtLochistory`.
@@ -40,11 +40,13 @@ class InvtLochistorySearch extends InvtLochistory
 		->orFilterWhere(['like', 'user_profile.lastname', $this->wecr]);
         
 	 */
+    public $lname;
+
     public function rules()
     {
         return [
             [['id', 'invt_ID', 'invt_locID'], 'integer'],
-            [['date'], 'safe'],
+            [['date', 'lname'], 'safe'],
         ];
     }
 
@@ -67,7 +69,7 @@ class InvtLochistorySearch extends InvtLochistory
     public function search($params)
     {
         $query = InvtLochistory::find();
-
+        $query->joinWith(['invtLoc']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -82,13 +84,19 @@ class InvtLochistorySearch extends InvtLochistory
             return $dataProvider;
         }
 
+        $dataProvider->sort->attributes['lname'] = [
+            'asc' => ['main_location.loc_name' => SORT_ASC],
+            'desc' => ['main_location.loc_name' => SORT_DESC],
+        ];
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'invt_ID' => $this->invt_ID,
             'invt_locID' => $this->invt_locID,
             'date' => $this->date,
-        ]);
+        ])
+            ->andFilterWhere(['like', 'main_location.id', $this->lname]);
 
         return $dataProvider;
     }

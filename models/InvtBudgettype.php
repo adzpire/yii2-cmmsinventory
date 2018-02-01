@@ -1,9 +1,9 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
-
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "invt_budgettype".
  *
@@ -53,5 +53,8 @@ class InvtBudgettype extends \yii\db\ActiveRecord
     public function getInvtMains()
     {
         return $this->hasMany(InvtMain::className(), ['invt_bdgttypID' => 'id']);
+    }
+    public static function getBudgetList(){
+        return ArrayHelper::map(self::find()->all(), 'id', 'invt_bname');
     }
 }

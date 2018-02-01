@@ -10,8 +10,8 @@ use yii\bootstrap\Html;
         //'divoffset' => 'col-sm-offset-1 col-lg-offset-2',
     ],
     'items' => [
-        ['label' => 'สร้างพัสดุใหม่', 'icon' => 'plus-sign', 'url' => 'invtmain/create'],
-        ['label' => 'รายการพัสดุ', 'icon' => 'list', 'url' => 'invtmain/index'],
+        ['label' => 'สร้างพัสดุใหม่', 'icon' => 'plus-sign', 'url' => ['invtmain/create']],
+        ['label' => 'รายการพัสดุ', 'icon' => 'list', 'url' => ['invtmain/index']],
         /*['label' => 'สร้างพัสดุใหม่', 'icon' => 'plus-sign', 'url' => 'invtmain/create'],
         ['label' => 'รายการพัสดุ', 'icon' => 'list', 'url' => 'invtmain/index'],
         ['label' => 'สร้างพัสดุใหม่', 'icon' => 'plus-sign', 'url' => 'invtmain/create'],

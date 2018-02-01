@@ -1,6 +1,6 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 //use mirage\user\models\User;
@@ -51,10 +51,10 @@ class InvtLochistory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'invt_ID' => 'inventoryID',
-            'invt_locID' => 'locationID',
+            'invt_ID' => 'ชื่อพัสดุ/ครุภัณฑ์',
+            'invt_locID' => 'ชื่อสถานที่',
             'date' => 'วันที่บันทึก',
-            'update_by' => 'userID',
+            'update_by' => 'อัพเดตโดย',
         ];
     }
 

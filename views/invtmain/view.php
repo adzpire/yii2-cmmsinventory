@@ -24,6 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= Html::a( Html::icon('pencil').' '.Yii::t('inventory/app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary panbtn']) ?>
 	</div>
 	<div class="panel-body">
+        <?php
+        //Yii::$app->formatter->locale = 'es-ES';
+        //echo Yii::$app->formatter->asCurrency(1202.57, 'THB');
+        ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -80,11 +84,17 @@ $this->params['breadcrumbs'][] = $this->title;
      			[
 				'label' => $model->attributeLabels()['invt_ppp'],
 				'value' => $model->invt_ppp,			
-				//'format' => ['date', 'long']
+				'format' => ['decimal', //'THB',
+//
+                ]
 			],
      			[
 				'label' => $model->attributeLabels()['invt_budgetyear'],
-				'value' => $model->invt_budgetyear,			
+				//'value' => $model->invt_budgetyear,
+                'value' => function($model){
+                    return $model->invt_budgetyear.' <span class="text-danger">('.($model->invt_budgetyear+543).')</span>';
+                },
+                'format' => ['html']
 				//'format' => ['date', 'long']
 			],
      			[

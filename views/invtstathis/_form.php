@@ -2,6 +2,9 @@
 
 use yii\bootstrap\Html;
 use yii\bootstrap\ActiveForm;
+use kartik\widgets\Select2;
+use yii\helpers\Url;
+use yii\web\JsExpression;
 use kartik\widgets\DatePicker;
 /*
 use kartik\widgets\FileInput;
@@ -21,12 +24,45 @@ use kartik\widgets\ActiveForm;
             //'enableAjaxValidation' => true,
 			//	'enctype' => 'multipart/form-data'
 			]); ?>
+    <?php if(!$model->isNewRecord){ ?>
+        <div class="form-group">
+            <label class="control-label  col-sm-3">
+                สถานะล่าสุด
+            </label>
+            <div class="col-sm-6">
+                <div class="form-control-static">
+                    <?php echo $model->invtStat->invt_sname; ?>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    <?php
+    echo $form->field($model, 'invt_ID')->widget(Select2::classname(), [
+        'initValueText' => ($model->isNewRecord ? false : $model->invt->invt_name),  //set the initial display text
+        'options' => ['placeholder' => 'พิมพ์ ชื่อ/ยี่ห้อรุ่น/รหัส 3 ตัวอักษรขึ้นไปเพื่อค้นหา ...'],
+        'pluginOptions' => [
+            'allowClear' => true,
+            'minimumInputLength' => 3,
+            'language' => [
+                'errorLoading' => new JsExpression("function () { return 'กำลังค้นหา...'; }"),
+            ],
+            'ajax' => [
+                'url' => Url::to(['invtlist']),
+                'dataType' => 'json',
+                'data' => new JsExpression('function(params) { return {q:params.term}; }')
+            ],
+            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+            'templateResult' => new JsExpression('function(invt_ID) { return invt_ID.text; }'),
+            'templateSelection' => new JsExpression('function (invt_ID) { return invt_ID.text; }'),
+        ],
+    ]);
+    ?>
 
-    <?= $form->field($model, 'invt_ID')->textInput() ?>
+    <?php
+    echo $form->field($model, 'invt_statID')->dropDownList($statlist);
+    ?>
 
-    <?= $form->field($model, 'invt_statID')->textInput() ?>
-
-	<?php
+	<?php $model->date = $model->isNewRecord ? date('Y-m-d') : $model->date;
 	echo $form->field($model, 'date')->widget(DatePicker::classname(), [
 		'language' => 'th',
 		'options' => ['placeholder' => Yii::t('kpi/app', 'enterdate')],

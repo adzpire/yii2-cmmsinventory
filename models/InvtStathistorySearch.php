@@ -1,11 +1,11 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use adzpire\inventory\models\InvtStathistory;
+use backend\modules\inventory\models\InvtStathistory;
 
 /**
  * InvtStathistorySearch represents the model behind the search form about `backend\modules\inventory\models\InvtStathistory`.
@@ -40,11 +40,12 @@ class InvtStathistorySearch extends InvtStathistory
 		->orFilterWhere(['like', 'user_profile.lastname', $this->wecr]);
         
 	 */
+    public $sname;
     public function rules()
     {
         return [
             [['id', 'invt_ID', 'invt_statID'], 'integer'],
-            [['date'], 'safe'],
+            [['date', 'sname'], 'safe'],
         ];
     }
 
@@ -67,7 +68,7 @@ class InvtStathistorySearch extends InvtStathistory
     public function search($params)
     {
         $query = InvtStathistory::find();
-
+        $query->joinWith(['invtStat']);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -81,6 +82,10 @@ class InvtStathistorySearch extends InvtStathistory
             // $query->where('0=1');
             return $dataProvider;
         }
+        $dataProvider->sort->attributes['sname'] = [
+            'asc' => ['invt_status.invt_sname' => SORT_ASC],
+            'desc' => ['invt_status.invt_sname' => SORT_DESC],
+        ];
 
         // grid filtering conditions
         $query->andFilterWhere([
@@ -88,7 +93,8 @@ class InvtStathistorySearch extends InvtStathistory
             'invt_ID' => $this->invt_ID,
             'invt_statID' => $this->invt_statID,
             'date' => $this->date,
-        ]);
+        ])
+            ->andFilterWhere(['like', 'invt_status.id', $this->sname]);
 
         return $dataProvider;
     }

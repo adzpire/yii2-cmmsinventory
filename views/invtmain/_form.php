@@ -6,14 +6,24 @@ use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\web\View;
 use yii\widgets\Pjax;
+use yii\widgets\MaskedInput;
+
 use kartik\widgets\Select2;
 use kartik\widgets\FileInput;
 use kartik\widgets\ActiveForm;
-use yii\jui\AutoComplete;
 use kartik\widgets\DatePicker;
 
+use yii\jui\AutoComplete;
+use yii\web\JsExpression;
+/*
 use dosamigos\ckeditor\CKEditor;
-/*use kartik\widgets\ActiveForm;
+<?= $form->field($model, 'content')->widget(CKEditor::className(), [
+                            'preset' => 'full',
+                            //'clientOptions' => KCFinder::registered()
+                        ]) ?>
+
+use kartik\widgets\FileInput;
+use kartik\widgets\ActiveForm;
 */
 /* @var $this yii\web\View */
 /* @var $model backend\modules\inventory\models\InvtMain */
@@ -32,7 +42,12 @@ use dosamigos\ckeditor\CKEditor;
 			]);*/ ?>
 
     <?php $form = ActiveForm::begin([
-        'type' => 'horizontal','options' => ['enctype' => 'multipart/form-data']]); ?>
+        'type' => 'horizontal',
+        'options' => ['enctype' => 'multipart/form-data'],
+//        'fieldConfig' => [
+//            'errorOptions' => ['encode' => false],
+//        ],
+    ]); ?>
 
     <?php Pjax::begin(['id' => 'locpjax']); ?>
     <?php
@@ -142,22 +157,35 @@ use dosamigos\ckeditor\CKEditor;
 
     <?php
     //if($model->isNewRecord) {
-    //if($model->isNewRecord) {
+    if(\Yii::$app->controller->action->id != 'batchcheck') {
         echo $form->field($model, 'invt_code', [
             'enableAjaxValidation' => true,
+            'errorOptions' => [
+                'encode' => false,
+                'class' => 'help-block'
+            ],
             //'inputOptions' => ['autofocus' => 'autofocus'],
         ])->widget(\yii\jui\AutoComplete::classname(), [
             'options' => [
                 'class' => 'form-control',
                 'placeholder' => 'เช่น วสส.ว.13-202-002-1/1-56/ง',
                 'autofocus' => (isset($id)) ? 'autofocus' : false,
+//                'fieldConfig' => [
+//                    'errorOptions' => ['encode' => false],
+//                ],
             ],
             'clientOptions' => [
-                'source' => $codearr,
+                //'source' => $codearr,
+                'source' => new JsExpression("function(request, response) {
+                    $.getJSON('searchcode', {
+                        id: request.term
+                    }, response);
+                }"),
+                'minLength'=>'2',
             ],
         ]);
-
-     /*}else{
+    }
+     /*else{
         echo $form->field($model, 'invt_code', [
             'enableAjaxValidation' => true,
             'addon' => [
@@ -179,7 +207,24 @@ use dosamigos\ckeditor\CKEditor;
         ]);
     }*/ ?>
 
-    <?= $form->field($model, 'invt_name')->textInput(['maxlength' => true]) ?>
+    <?php //$form->field($model, 'invt_name')->textInput(['maxlength' => true])
+        echo $form->field($model, 'invt_name')->widget(\yii\jui\AutoComplete::classname(), [
+            'options' => [
+                'class' => 'form-control',
+                'placeholder' => 'เช่น จอมอนิเตอร์, เครื่องคอมพิวเตอร์',
+            ],
+            'clientOptions' => [
+                //'source' => $brndarr,
+                'source' => new JsExpression("function(request, response) {
+                $.getJSON('searchname', {
+                    id: request.term
+                }, response);
+            }"),
+                'minLength'=>'2',
+            ],
+        ])
+
+    ?>
 
     <?php //= $form->field($model, 'invt_brand')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'invt_brand')->widget(\yii\jui\AutoComplete::classname(), [
@@ -188,20 +233,18 @@ use dosamigos\ckeditor\CKEditor;
             'placeholder' => 'เช่น HP, acer',
         ],
         'clientOptions' => [
-            'source' => $brndarr,
+            //'source' => $brndarr,
+            'source' => new JsExpression("function(request, response) {
+                $.getJSON('searchbrand', {
+                    id: request.term
+                }, response);
+            }"),
+            'minLength'=>'2',
         ],
     ]) ?>
 
-    <?php //$form->field($model, 'invt_detail')->textarea(['rows' => 6]) ?>
-    <?= $form->field($model, 'invt_detail')->widget(CKEditor::className(), [
-        'preset' => 'basic',
-        'clientOptions' => [
-            'toolbarGroups' => [
-                ['name' => 'list'],
-            ],
-        ],
-        //'clientOptions' => KCFinder::registered()
-    ]) ?>
+    <?= $form->field($model, 'invt_detail')->textarea(['rows' => 6]) ?>
+
     <?php //= $form->field($model, 'invt_image')->textInput(['maxlength' => true]) ?>
     <?php
 //    echo $form->field($model, 'file',[
@@ -244,7 +287,14 @@ use dosamigos\ckeditor\CKEditor;
     );
     ?>
 
-    <?= $form->field($model, 'invt_ppp')->textInput() ?>
+    <?= $form->field($model, 'invt_ppp')->widget(MaskedInput::classname(), [
+        'clientOptions' => [
+            'alias' =>  'decimal',
+            'rightAlign' => false,
+            //'groupSeparator' => ',',
+            //'autoGroup' => true
+        ],
+    ]); ?>
 
     <?php
     echo $form->field($model, 'invt_budgetyear')->widget(DatePicker::classname(), [
@@ -266,24 +316,18 @@ use dosamigos\ckeditor\CKEditor;
             'placeholder' => 'เช่น งานอาคารสถานที่, อับดุลอาซิส ดือราแม',
         ],
         'clientOptions' => [
-            'source' => $ocpyarr,
+//            'source' => $ocpyarr,
+            'source' => new JsExpression("function(request, response) {
+                $.getJSON('searchoccupyby', {
+                    id: request.term
+                }, response);
+            }"),
+            'minLength'=>'2',
         ],
     ]) ?>
 
-    <?php // $form->field($model, 'invt_note')->textarea(['rows' => 6]) ?>
-    <?= $form->field($model, 'invt_note')->widget(CKEditor::className(), [
-        'preset' => 'basic',
-        'clientOptions' => [
-            'toolbarGroups' => [
-//                ['name' => 'undo'],
-//                ['name' => 'basicstyles', 'groups' => ['basicstyles', 'cleanup']],
-                ['name' => 'list'],
-//                ['name' => 'links', 'groups' => ['links']],
-                //['name' => 'others', 'groups' => ['others', 'about']],
-            ],
-        ],
-        //'clientOptions' => KCFinder::registered()
-    ]) ?>
+    <?= $form->field($model, 'invt_note')->textarea(['rows' => 6]) ?>
+
     <?= $form->field($model, 'invt_contact')->textInput() ?>
 
     <?= $form->field($model, 'invt_buyfrom')->widget(\yii\jui\AutoComplete::classname(), [
@@ -370,7 +414,7 @@ use dosamigos\ckeditor\CKEditor;
         <?php if(!$model->isNewRecord){
 		 echo Html::resetButton( Html::icon('refresh').' '.Yii::t('app', 'Reset') , ['class' => 'btn btn-warning']);
 		 } ?>
-		 
+
 	</div>
 
     <?php ActiveForm::end(); ?>

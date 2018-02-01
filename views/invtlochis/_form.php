@@ -28,11 +28,11 @@ use kartik\widgets\ActiveForm;
     <?php if(!$model->isNewRecord){ ?>
         <div class="form-group">
             <label class="control-label  col-sm-3">
-                <?php echo 'last location';//$model->attributeLabels()['invt_locationID'] ?>
+                สถานที่ล่าสุด
             </label>
             <div class="col-sm-6">
                 <div class="form-control-static">
-                    <?php echo '1st floor';//$model->invtLocation->loc_name; ?>
+                    <?php echo $model->invtLoc->loc_name; ?>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@ use kartik\widgets\ActiveForm;
     //if($model->isNewRecord){
         echo $form->field($model, 'invt_ID')->widget(Select2::classname(), [
             'initValueText' => ($model->isNewRecord ? false : $model->invt->invt_name),  //set the initial display text
-            'options' => ['placeholder' => 'พิมพ์ 3 ตัวอักษรขึ้นไปเพื่อค้นหา ...'],
+            'options' => ['placeholder' => 'พิมพ์ ชื่อ/ยี่ห้อรุ่น/รหัส 3 ตัวอักษรขึ้นไปเพื่อค้นหา ...'],
             'pluginOptions' => [
                 'allowClear' => true,
                 'minimumInputLength' => 3,
@@ -79,7 +79,7 @@ use kartik\widgets\ActiveForm;
     ]);
     ?>
 
-    <?php
+    <?php $model->date = $model->isNewRecord ? date('Y-m-d') : $model->date;
     echo $form->field($model, 'date')->widget(DatePicker::classname(), [
         'language' => 'th',
         'options' => ['placeholder' => Yii::t('kpi/app', 'enterdate')],
@@ -91,14 +91,16 @@ use kartik\widgets\ActiveForm;
     ]);
     ?>
 
-    <?php
-    echo $form->field($model, 'update_by')->widget(Select2::classname(), [
-        'data' => $userlist,
-        'options' => ['placeholder' => Yii::t('inventory/app', 'PleaseSelect')],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
+    <?php if(!$model->isNewRecord) {
+        echo $form->field($model, 'update_by')->widget(Select2::classname(), [
+            'data' => $userlist,
+            'initValueText' => ($model->isNewRecord ? false : $model->invt->invt_name),  //set the initial display text
+            'options' => ['placeholder' => Yii::t('inventory/app', 'PleaseSelect')],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]);
+    }
     ?>
 
 <?php 		/* adzpire form tips
@@ -121,7 +123,7 @@ use kartik\widgets\ActiveForm;
 ]);
 		*/
  ?>     <div class="form-group text-center">
-        <?= Html::submitButton($model->isNewRecord ?  Html::icon('floppy-disk').' '.Yii::t('inventory/app', 'Save') :  Html::icon('floppy-disk').' '.Yii::t('inventory/app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ?  Html::icon('floppy-disk').' '.Yii::t('inventory/app', 'บันทึก') :  Html::icon('floppy-disk').' '.Yii::t('inventory/app', 'Save'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 		<?php if(!$model->isNewRecord){
 		 echo Html::resetButton( Html::icon('refresh').' '.Yii::t('inventory/app', 'Reset') , ['class' => 'btn btn-warning']); 
 		 } ?>

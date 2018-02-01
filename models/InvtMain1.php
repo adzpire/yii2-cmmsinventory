@@ -7,9 +7,6 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use backend\modules\location\models\MainLocation;
 
-use backend\modules\inventory\models\InvtStathistory;
-use backend\modules\inventory\models\InvtLochistory;
-
 /**
  * This is the model class for table "invt_main".
  *
@@ -59,12 +56,9 @@ class InvtMain extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
-
     public $oldloc;
     public $oldstat;
-
-    public function afterFind()
-    {
+    public function afterFind(){
         //$this->oldAttributes = $this->attributes;
         $this->oldloc = $this->invt_locationID;
         $this->oldstat = $this->invt_statID;
@@ -93,115 +87,29 @@ class InvtMain extends \yii\db\ActiveRecord
         } else {
             return false;
         }
-    }*/
-    public function afterSave($insert, $changedAttributes)
+    }
+    public function afterSave($insert)
     {
-        //parent::afterSave($insert, $changedAttributes);
-        //var_dump(parent::afterSave($insert, $changedAttributes));
-        //print_r($changedAttributes);
-        //exit();
-        //if (parent::afterSave($insert, $changedAttributes)) {
-//            if (!$this->isNewRecord) {
-        if ($insert) {
-            //new record
-            $lh = new InvtLochistory();
-            $lh->invt_ID = $this->id;
-            $lh->invt_locID = $this->invt_locationID;
-            $lh->date = date('Y-m-d');
-            $lh->update_by = Yii::$app->user->id;
-
-            if ($lh->save()) {
-                Yii::$app->getSession()->setFlash('addlochisflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานที่เรียบร้อย'),
-                ]);
-            } else {
-                Yii::$app->getSession()->setFlash('addlochisflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานที่ไม่ได้'),
-                ]);
-            }
-            $sh = new InvtStathistory();
-            $sh->invt_ID = $this->id;
-            $sh->invt_statID = $this->invt_statID;
-            $sh->date = date('Y-m-d');
-
-            if ($sh->save()) {
-                Yii::$app->getSession()->setFlash('addstashisflsh', [
-                    'type' => 'success',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานะเรียบร้อย'),
-                ]);
-            } else {
-                Yii::$app->getSession()->setFlash('addatathisflsh', [
-                    'type' => 'danger',
-                    'duration' => 4000,
-                    'icon' => 'glyphicon glyphicon-ok-circle',
-                    'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานะไม่ได้'),
-                ]);
+        if (parent::beforeSave($insert)) {
+            if($insert){
+                //$this->invt_note = 'dddd';
+            }else{
+                if(isset($this->oldloc) && $this->invt_locationID != $this->oldloc){
+                    // The attribute is changed. Do something here...
+                    $this->invt_note = 'uuuuuuu';
+                }else{
+                    $this->invt_note = 'wwwwwwww';
+                }
             }
             // ...custom code here...
             return true;
         } else {
-            if (isset($this->oldloc) && $this->invt_locationID != $this->oldloc) {
-                // The attribute is changed. Do something here...
-                $lh = new InvtLochistory();
-                $lh->invt_ID = $this->id;
-                $lh->invt_locID = $this->invt_locationID;
-                $lh->date = date('Y-m-d');
-                $lh->update_by = Yii::$app->user->id;
-
-                if ($lh->save()) {
-                    Yii::$app->getSession()->setFlash('addlochisflsh', [
-                        'type' => 'success',
-                        'duration' => 4000,
-                        'icon' => 'glyphicon glyphicon-ok-circle',
-                        'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานที่เรียบร้อย'),
-                    ]);
-                } else {
-                    Yii::$app->getSession()->setFlash('addlochisflsh', [
-                        'type' => 'danger',
-                        'duration' => 4000,
-                        'icon' => 'glyphicon glyphicon-ok-circle',
-                        'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานที่ไม่ได้'),
-                    ]);
-                }
-            }
-            if (isset($this->oldstat) && $this->invt_statID != $this->oldstat) {
-                // The attribute is changed. Do something here...
-                $sh = new InvtStathistory();
-                $sh->invt_ID = $this->id;
-                $sh->invt_statID = $this->invt_statID;
-                $sh->date = date('Y-m-d');
-
-                if ($sh->save()) {
-                    Yii::$app->getSession()->setFlash('addstashisflsh', [
-                        'type' => 'success',
-                        'duration' => 4000,
-                        'icon' => 'glyphicon glyphicon-ok-circle',
-                        'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานะเรียบร้อย'),
-                    ]);
-                } else {
-                    Yii::$app->getSession()->setFlash('addatathisflsh', [
-                        'type' => 'danger',
-                        'duration' => 4000,
-                        'icon' => 'glyphicon glyphicon-ok-circle',
-                        'message' => Yii::t('inventory/app', 'เพิ่มประวัติสถานะไม่ได้'),
-                    ]);
-                }
-            }
+            return false;
         }
-        //echo 'xxx';exit();
-    }
+    }*/
 
     public $file;
     public $filepath;
-
     /**
      * @inheritdoc
      */
@@ -221,7 +129,7 @@ class InvtMain extends \yii\db\ActiveRecord
             [['file'], 'file', 'extensions' => 'png, jpg'],
 //            [['invt_code'], 'unique', 'message' => "{attribute} :  ซ้ำแล้วไม่สามารถใช้งานได้. <a href=\"update?id=".self::getKey('"{value}"')."\">อัพเดตรายการนี้</a>" ],
             [['invt_code'], 'checkUnique', 'on' => 'create'],
-            [['invt_code'], 'checkUnique', 'on' => 'update', 'when' => function ($model) {
+            [['invt_code'], 'checkUnique', 'on'=>'update', 'when' => function($model){
                 return $model->isAttributeChanged('invt_code');
             }],
         ];
@@ -229,9 +137,9 @@ class InvtMain extends \yii\db\ActiveRecord
 
     public function checkUnique($attribute, $params, $validator)
     {
-        $tmp = self::find()->where(['invt_code' => $this->invt_code])->one();
-        if (count($tmp) > 0) {
-            $validator->addError($this, $attribute, "{attribute} : {value} ซ้ำแล้วไม่สามารถใช้งานได้. <a href=\"update?id=" . $tmp->id . "\">อัพเดตรายการนี้</a>");
+        $tmp = self::find()->where(['invt_code'=> $this->invt_code])->one();
+        if(count($tmp)>0){
+            $validator->addError($this, $attribute, "{attribute} : {value} ซ้ำแล้วไม่สามารถใช้งานได้. <a href=\"update?id=".$tmp->id."\">อัพเดตรายการนี้</a>");
         }
     }
 
@@ -272,14 +180,14 @@ class InvtMain extends \yii\db\ActiveRecord
 
         if ($this->validate(['file'])) {
             $targetPath = Yii::getAlias('@frontend/web/uploads/inventory_files/');
-            $this->filepath = $targetPath . time() . '_' . $this->file->baseName . '.' . $this->file->extension;
+            $this->filepath = $targetPath .time().'_'. $this->file->baseName . '.' . $this->file->extension;
 
             $this->file->saveAs($this->filepath);
-            /*if($this->isImage($this->filepath)){
-                $image= Yii::$app->image->load($this->filepath);
-                $image->resize($defaultImageWidth);
-                $image->save($this->filepath);
-            }*/
+                /*if($this->isImage($this->filepath)){
+                    $image= Yii::$app->image->load($this->filepath);
+                    $image->resize($defaultImageWidth);
+                    $image->save($this->filepath);
+                }*/
             return true;
         } else {
             return false;
@@ -288,19 +196,18 @@ class InvtMain extends \yii\db\ActiveRecord
 
     public function getLongdetail()
     {
-        return $this->invt_name . ' ' . $this->invt_brand . ' ' . $this->invt_detail;
+        return $this->invt_name.' '.$this->invt_brand.' '.$this->invt_detail;
     }
 
     public function getShortdetail()
     {
-        return $this->invt_name . ' ' . $this->invt_brand;
+        return $this->invt_name.' '.$this->invt_brand;
     }
 
     public function getConcatened()
     {
-        return ' ' . $this->invt_name . ' ' . $this->invt_brand . ' (' . $this->invt_code . ')';
+        return ' '.$this->invt_name.' '.$this->invt_brand.' ('.$this->invt_code.')';
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -24,10 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'bdgttyparray' => $bdgttyparray,
                 'invtstatarray' => $invtstatarray,
                 'locarray' => $locarray,
-                'brndarr' => $brndarr,
-                'ocpyarr' => $ocpyarr,
+//                'brndarr' => $brndarr,
+//                'ocpyarr' => $ocpyarr,
                 'bfromarr' => $bfromarr,
-                'codearr' => $codearr,
+//                'codearr' => $codearr,
             ]) ?>
         </div>
     </div>

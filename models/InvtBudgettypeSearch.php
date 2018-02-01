@@ -1,11 +1,11 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use adzpire\inventory\models\InvtBudgettype;
+use backend\modules\inventory\models\InvtBudgettype;
 
 /**
  * InvtBudgettypeSearch represents the model behind the search form about `backend\modules\inventory\models\InvtBudgettype`.

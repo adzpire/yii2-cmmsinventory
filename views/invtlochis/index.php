@@ -33,8 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => 'invt.invt_name'
 			],
 			[
-				'attribute' => 'invt_locID',
-				'value' => 'invtLoc.loc_name'
+				'attribute' => 'lname',
+				'value' => 'invtLoc.loc_name',
+                'filter'=> $filterL,
+                'label' => $searchModel->attributeLabels()['invt_locID'],
 			],
 			[
 				'attribute' => 'date',

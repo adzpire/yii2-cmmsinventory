@@ -30,24 +30,28 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'invt_name',
             ],
+            'invt_code',
             [
                 'attribute' => 'tname',
                 'value' => 'invtType.invt_tname',
                 'label' => $searchModel->attributeLabels()['invt_typeID'],
+                'filter'=> $filterT,
             ],
             [
                 'attribute' => 'lname',
                 'value' => 'invtLocation.loc_name',
                 'label' => $searchModel->attributeLabels()['invt_locationID'],
+                'filter'=> $filterL,
             ],
             [
                 'attribute' => 'sname',
                 'value' => 'invtStat.invt_sname',
                 'label' => $searchModel->attributeLabels()['invt_statID'],
+                'filter'=> $filterS,
             ],
-            'invt_budgetyear',
+//            'invt_budgetyear',
             //'invt_statID',
-            // 'invt_code',
+
             // 'invt_name',
             // 'invt_brand',
             // 'invt_detail:ntext',
@@ -66,10 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-            ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{create}',
+                'template' => '{create} {view} {update} {delete}',
                 'buttons' => [
                     'create' => function ($url, $model, $key) {
                         //return Html::a(Html::icon('duplicate'), $url);

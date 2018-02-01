@@ -1,10 +1,12 @@
 <?php
 
-namespace adzpire\inventory\controllers;
+namespace backend\modules\inventory\controllers;
 
 use Yii;
-use adzpire\inventory\models\InvtBudgettype;
-use adzpire\inventory\models\InvtBudgettypeSearch;
+use backend\modules\inventory\models\InvtBudgettype;
+use backend\modules\inventory\models\InvtBudgettypeSearch;
+use backend\components\AdzpireComponent;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -33,6 +35,12 @@ class InvtbdgtController extends Controller
         ];
     }
 
+    public $moduletitle;
+    public function beforeAction(){
+        $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
+        return true;
+    }
+
     /**
      * Lists all InvtBudgettype models.
      * @return mixed
@@ -40,7 +48,7 @@ class InvtbdgtController extends Controller
     public function actionIndex()
     {
 		 
-		 Yii::$app->view->title = Yii::t('inventory/app', 'Invt Budgettypes').' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = 'รายการประเภทเงิน - '.$this->moduletitle;
 		 
         $searchModel = new InvtBudgettypeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -59,7 +67,7 @@ class InvtbdgtController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->view->title = Yii::t('inventory/app', 'Detail').' : '.$model->id.' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
+        Yii::$app->view->title = 'รายละเอียด : '.$model->id.' - '.$this->moduletitle;
 		 
         return $this->render('view', [
             'model' => $model,
@@ -73,7 +81,7 @@ class InvtbdgtController extends Controller
      */
     public function actionCreate()
     {
-		 Yii::$app->view->title = Yii::t('inventory/app', 'Create').' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = 'สร้างใหม่ - '.$this->moduletitle;
 		 
         $model = new InvtBudgettype();
 
@@ -85,22 +93,12 @@ class InvtbdgtController extends Controller
 		
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('inventory/app', 'UrDataCreated'),
-				]);
-			return $this->redirect(['view', 'id' => $model->wu_id]);	
+                AdzpireComponent::succalert('addflsh', 'เพิ่มเรียบร้อย');
+			    return $this->redirect(['view', 'id' => $model->id]);
 			}else{
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('inventory/app', 'UrDataNotCreated'),
-				]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มไม่ได้');
 			}
-            return $this->redirect(['view', 'id' => $model->id]);
+            print_r($model->getErrors());
         }
 
             return $this->render('create', [
@@ -122,28 +120,16 @@ class InvtbdgtController extends Controller
 
 		 Yii::$app->view->title = Yii::t('inventory/app', 'Update {modelClass}: ', [
     'modelClass' => 'Invt Budgettype',
-]) . $model->id.' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
-		 
-
+]) . $model->id.' - '.$this->moduletitle;
 
         if ($model->load(Yii::$app->request->post())) {
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('inventory/app', 'UrDataUpdated'),
-				]);
-			return $this->redirect(['view', 'id' => $model->wu_id]);	
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงเรียบร้อย');
+			    return $this->redirect(['view', 'id' => $model->id]);
 			}else{
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('inventory/app', 'UrDataNotUpdated'),
-				]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงไม่ได้');
 			}
-            return $this->redirect(['view', 'id' => $model->id]);
+            print_r($model->getErrors());
         } 
 
             return $this->render('update', [
@@ -162,14 +148,8 @@ class InvtbdgtController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-		
-		Yii::$app->getSession()->setFlash('edtflsh', [
-			'type' => 'success',
-			'duration' => 4000,
-			'icon' => 'glyphicon glyphicon-ok-circle',
-			'message' => Yii::t('inventory/app', 'UrDataDeleted'),
-		]);
-		
+
+        AdzpireComponent::succalert('edtflsh', 'ลบเรียบร้อย');
 
         return $this->redirect(['index']);
     }

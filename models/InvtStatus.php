@@ -1,6 +1,6 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;

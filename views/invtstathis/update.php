@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = Yii::t('inventory/app', 'Update');
 	<div class="panel-body">
 	<?= $this->render('_form', [
 	  'model' => $model,
+        'statlist' => $statlist,
 	]) ?>
 	</div>
 </div>

@@ -1,14 +1,12 @@
 <?php
 
-namespace adzpire\inventory\controllers;
+namespace backend\modules\inventory\controllers;
 
 use Yii;
-use adzpire\inventory\models\InvtLochistory;
-use adzpire\inventory\models\InvtLochistorySearch;
-use adzpire\inventory\models\InvtMain;
-
+use backend\modules\inventory\models\InvtLochistory;
+use backend\modules\inventory\models\InvtLochistorySearch;
 use backend\modules\location\models\MainLocation;
-
+use backend\modules\inventory\models\InvtMain;
 use backend\modules\person\models\Person;
 
 use yii\web\Controller;
@@ -41,12 +39,12 @@ class InvtlochisController extends Controller
     }
 
     public $admincontroller = [20];
-
+    public $moduletitle;
     public function beforeAction(){
         foreach($this->admincontroller as $key){
             array_push(Yii::$app->controller->module->params['adminModule'],$key);
         }
-
+        $this->moduletitle = Yii::t('app', Yii::$app->controller->module->params['title']);
         return true;
         /*
         if(ArrayHelper::isIn(Yii::$app->user->id, Yii::$app->controller->module->params['adminModule'])){
@@ -63,14 +61,17 @@ class InvtlochisController extends Controller
     public function actionIndex()
     {
 		 
-		 Yii::$app->view->title = Yii::t('inventory/app', 'Invt Lochistories').' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
-		 
+        Yii::$app->view->title = 'รายการประวัติสถานที่ - '.$this->moduletitle;
+
         $searchModel = new InvtLochistorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $filterL = MainLocation::getLocationList();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'filterL' => $filterL,
         ]);
     }
 
@@ -83,7 +84,7 @@ class InvtlochisController extends Controller
     {
 		 $model = $this->findModel($id);
 		 
-		 Yii::$app->view->title = Yii::t('inventory/app', 'Detail').' : '.$model->id.' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = 'รายละเอียด : '.$model->id.' - '.$this->moduletitle;
 		 
         return $this->render('view', [
             'model' => $model,
@@ -97,7 +98,7 @@ class InvtlochisController extends Controller
      */
     public function actionCreate($renderType = null)
     {
-		 Yii::$app->view->title = Yii::t('inventory/app', 'Create').' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
+		 Yii::$app->view->title = 'สร้างใหม่ - '.$this->moduletitle;
 		 
         $model = new InvtLochistory();
 
@@ -114,20 +115,10 @@ class InvtlochisController extends Controller
             $model->update_by = Yii::$app->user->id;
 
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('inventory/app', 'UrDataCreated'),
-				]);
-			return $this->redirect(['view', 'id' => $model->id]);	
+                AdzpireComponent::succalert('addflsh', 'เพิ่มเรียบร้อย');
+			    return $this->redirect(['view', 'id' => $model->id]);
 			}else{
-				Yii::$app->getSession()->setFlash('addflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('inventory/app', 'UrDataNotCreated'),
-				]);
+                AdzpireComponent::dangalert('addflsh', 'เพิ่มไม่ได้');
 			}
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -166,27 +157,17 @@ class InvtlochisController extends Controller
 		 
 		 Yii::$app->view->title = Yii::t('inventory/app', 'Update {modelClass}: ', [
     'modelClass' => 'Invt Lochistory',
-]) . $model->id.' - '.Yii::t('itinfo/app', Yii::$app->controller->module->params['title']);
+]) . $model->id.' - '.$this->moduletitle;
 		 
         if ($model->load(Yii::$app->request->post())) {
 
             $model->update_by = Yii::$app->user->id;
 
 			if($model->save()){
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'success',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-ok-circle',
-				'message' => Yii::t('inventory/app', 'UrDataUpdated'),
-				]);
-			return $this->redirect(['view', 'id' => $model->id]);	
+                AdzpireComponent::succalert('edtflsh', 'ปรับปรุงเรียบร้อย');
+			    return $this->redirect(['view', 'id' => $model->id]);
 			}else{
-				Yii::$app->getSession()->setFlash('edtflsh', [
-				'type' => 'danger',
-				'duration' => 4000,
-				'icon' => 'glyphicon glyphicon-remove-circle',
-				'message' => Yii::t('inventory/app', 'UrDataNotUpdated'),
-				]);
+                AdzpireComponent::dangalert('edtflsh', 'ปรับปรุงไม่ได้');
 			}
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -212,14 +193,8 @@ class InvtlochisController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-		
-		Yii::$app->getSession()->setFlash('edtflsh', [
-			'type' => 'success',
-			'duration' => 4000,
-			'icon' => 'glyphicon glyphicon-ok-circle',
-			'message' => Yii::t('inventory/app', 'UrDataDeleted'),
-		]);
-		
+
+        AdzpireComponent::succalert('edtflsh', 'ลบเรียบร้อย');
 
         return $this->redirect(['index']);
     }
@@ -240,10 +215,13 @@ class InvtlochisController extends Controller
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
             $query = new \yii\db\Query;
-            $query->select('id, invt_name AS text')
+            $query->select(['id', new \yii\db\Expression("CONCAT(`invt_name`, ' brand: ', `invt_brand`, ' code: ', `invt_code`) as text")])
                 ->from('invt_main')
                 ->where(['like', 'invt_name', $q])
-                ->limit(20);
+                ->orWhere(['like', 'invt_code', $q])
+                ->orWhere(['like', 'invt_detail', $q])
+                ->orWhere(['like', 'invt_occupyby', $q])
+                ->orWhere(['like', 'invt_brand', $q]);
             $command = $query->createCommand();
             $data = $command->queryAll();
             $out['results'] = array_values($data);

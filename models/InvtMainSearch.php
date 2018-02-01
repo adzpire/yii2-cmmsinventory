@@ -1,11 +1,11 @@
 <?php
 
-namespace adzpire\inventory\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use adzpire\inventory\models\InvtMain;
+use backend\modules\inventory\models\InvtMain;
 
 /**
  * InvtMainSearch represents the model behind the search form about `backend\modules\inventory\models\InvtMain`.
@@ -121,7 +121,7 @@ class InvtMainSearch extends InvtMain
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            self::tableName().'.id' => $this->id,
             'invt_locationID' => $this->invt_locationID,
             'invt_typeID' => $this->invt_typeID,
             'invt_bdgttypID' => $this->invt_bdgttypID,
@@ -144,9 +144,12 @@ class InvtMainSearch extends InvtMain
             ->andFilterWhere(['like', 'invt_occupyby', $this->invt_occupyby])
             ->andFilterWhere(['like', 'invt_note', $this->invt_note])
             ->andFilterWhere(['like', 'invt_buyfrom', $this->invt_buyfrom])
-        ->andFilterWhere(['like', 'main_location.loc_name', $this->lname])
-        ->andFilterWhere(['like', 'invt_status.invt_sname', $this->sname])
-        ->andFilterWhere(['like', 'user_profile.firstname', $this->tname]);
+        ->andFilterWhere(['like', 'main_location.id', $this->lname])
+        //->andFilterWhere(['like', 'main_location.loc_name', $this->lname])
+        ->andFilterWhere(['like', 'invt_status.id', $this->sname])
+        //->andFilterWhere(['like', 'invt_status.invt_sname', $this->sname])
+        ->andFilterWhere(['like', 'invt_type.id', $this->tname]);
+        //->andFilterWhere(['like', 'invt_type.invt_tname', $this->tname]);
 
         return $dataProvider;
     }
