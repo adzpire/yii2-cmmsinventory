@@ -4,12 +4,12 @@ use yii\bootstrap\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\inventory\models\FormInvttakeMain */
+/* @var $model backend\modules\inventory\models\InvtHddram */
 
 $this->params['breadcrumbs'][] = ['label' => 'หน้ารายการ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="form-invttake-main-create">
+<div class="invt-hddram-create">
 
     <div class="panel panel-primary">
 		<div class="panel-heading">
@@ -18,9 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 		<div class="panel-body">
 		 <?= $this->render('_form', [
-            'model' => $model,
-            'staff' => $staff,
-             'loclist' => $loclist,
+			  'model' => $model,
 		 ]) ?>
 		</div>
 	</div>

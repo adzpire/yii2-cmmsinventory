@@ -3,7 +3,7 @@
 use yii\bootstrap\Html;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\dochub\models\FormInvttakeItems */
+/* @var $model backend\modules\inventory\models\FormInvttakeItems */
 
 $this->params['breadcrumbs'][] = ['label' => 'หน้ารายการ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->ID, 'url' => ['view', 'id' => $model->ID]];

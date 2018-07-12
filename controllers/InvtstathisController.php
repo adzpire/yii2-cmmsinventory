@@ -86,7 +86,7 @@ class InvtstathisController extends Controller
      */
     public function actionCreate()
     {
-		 Yii::$app->view->title = 'สร้างใหม่ - '.$this->moduletitle;
+		 Yii::$app->view->title = ' เปลี่ยนสถานะ '.$this->moduletitle;
 		 
         $model = new InvtStathistory();
 

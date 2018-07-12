@@ -1,9 +1,7 @@
 <?php
 
 use yii\bootstrap\Html;
-//use yii\grid\GridView;
-
-use kartik\grid\GridView;
+use kartik\dynagrid\DynaGrid;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\modules\inventory\models\InvtMainSearch */
@@ -16,40 +14,61 @@ $this->params['breadcrumbs'][] = $this->title;
     //print_r(array_keys($ivntarr, "วสส.06-004-3/500-59/ร"));
     //exit();
     ?>
-    <?= GridView::widget([
-        //'id' => 'kv-grid-demo',
-        'dataProvider' => $provider,
-        'columns' => [
-            [
-                'class' => 'yii\grid\SerialColumn',
-                'headerOptions' => [
-                    'width' => '100px',
-                ],
-            ],
-            'id',
-            [
-                'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
-                'value' => function ($data) use ($ivntarr) {
-                    if (!empty(array_keys($ivntarr, $data['id']))) {
-                        return Html::a(Html::icon('duplicate') . ' มีซ้ำแล้ว คลิ้กเพื่ออัพเดต', ['update', 'id' => array_keys($ivntarr, $data['id'])[0]], ['class' => 'btn btn-danger']);
-                    } else {
-                        return 'ใช้งานได้'; // $data['name'] for array data, e.g. using SqlDataProvider.
-                    }
-                },
-                'format' => 'raw',
-                'headerOptions' => [
-                    'width' => '150px',
-                ],
+<?= DynaGrid::widget([
+    'columns' => [
+        [
+            'class' => 'yii\grid\SerialColumn',
+            'headerOptions' => [
+                'width' => '100px',
             ],
         ],
-        'responsive' => true,
-        'hover' => true,
-        'toolbar' => false,
-        'panel' => [
-            'type' => GridView::TYPE_INFO,
+        'id',
+        [
+            'class' => 'yii\grid\DataColumn', // can be omitted, as it is the default
+            'value' => function ($data) use ($ivntarr) {
+                if (!empty(array_keys($ivntarr, $data['id']))) {
+                    return Html::a(Html::icon('duplicate') . ' มีซ้ำแล้ว คลิ้กเพื่ออัพเดต', ['update', 'id' => array_keys($ivntarr, $data['id'])[0]], ['class' => 'btn btn-danger']);
+                } else {
+                    return 'ใช้งานได้'; // $data['name'] for array data, e.g. using SqlDataProvider.
+                }
+            },
+            'format' => 'raw',
+            'headerOptions' => [
+                'width' => '150px',
+            ],
+        ],
+    ],	
+    'theme'=>'panel-info',
+    'showPersonalize'=>true,
+	'storage' => 'session',
+	'toggleButtonGrid' => [
+		'label' => '<span class="glyphicon glyphicon-wrench">ปรับแต่งตาราง</span>'
+	],
+    'gridOptions'=>[
+        'dataProvider'=>$provider,
+        // 'showPageSummary'=>true,
+        // 'floatHeader'=>true,
+		'pjax'=>true,
+		'hover'=>true,
+		'pager' => [
+			'firstPageLabel' => Yii::t('app', 'รายการแรกสุด'),
+			'lastPageLabel' => Yii::t('app', 'รายการท้ายสุด'),
+		],
+		'resizableColumns'=>true,
+        'responsiveWrap'=>false,
+        'responsive'=>true,
+        'panel'=>[
             'heading' => Html::icon('duplicate') . ' ' . Html::encode($this->title),
+            // 'before' =>  '<div style="padding-top: 7px;"><em>* The table header sticks to the top in this demo as you scroll</em></div>',
+			'after' => false,			
         ],
-    ]); ?>
+        'toolbar' =>  [                             
+            ['content'=>'{dynagrid}'],
+		],
+		
+    ],
+    'options'=>['id'=>'dynagrid-invtbcheck'] // a unique identifier is important
+]); ?>
     <div class="panel panel-primary">
         <div class="panel-heading">
             <span class="panel-title"><?= Html::icon('edit') . ' ' . Html::encode($this->title) ?></span>

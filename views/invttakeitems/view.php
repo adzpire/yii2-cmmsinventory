@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\dochub\models\FormInvttakeItems */
+/* @var $model backend\modules\inventory\models\FormInvttakeItems */
 
 $this->params['breadcrumbs'][] = ['label' => 'หน้ารายการ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\inventory\models\InvtStathistory */
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('inventory/app', 'Invt Stathistories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('inventory/app', ' เปลี่ยนสถานะ'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="invt-stathistory-create">

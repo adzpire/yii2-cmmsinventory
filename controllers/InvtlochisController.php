@@ -98,7 +98,7 @@ class InvtlochisController extends Controller
      */
     public function actionCreate($renderType = null)
     {
-		 Yii::$app->view->title = 'สร้างใหม่ - '.$this->moduletitle;
+		 Yii::$app->view->title = 'ย้ายสถานที่ '.$this->moduletitle;
 		 
         $model = new InvtLochistory();
 

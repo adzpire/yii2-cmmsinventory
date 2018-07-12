@@ -29,7 +29,7 @@ class Module extends \yii\base\Module
 
         $this->params['adminModule'] = [5,18];
 		$this->layout = 'inventory';
-		$this->params['ModuleVers'] = '1.2';
+		$this->params['ModuleVers'] = '1.3';
 		$this->params['title'] = 'ฐานข้อมูลพัสดุ/ครุภัณฑ์';
         $this->params['modulecookies'] = 'invtck';
         // custom initialization code goes here

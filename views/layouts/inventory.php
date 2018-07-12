@@ -45,164 +45,11 @@ $this->registerJs($js);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <?php
-    $this->registerCss("
-		.wrap > .container {
-			 padding: 0px 15px 20px;
-		}
-		.cmmslogo{
-			align-content: left;
-			width: 45px;
-			padding: 3px;
-		}
-		.navtablelogo{
-			float:right;
-		}
-		.navbar-brand {
-			 padding: 2px 15px;
-		}
-		.navbar-brand > img {
-			 display: inline;
-		}
-		.breadcrumb>li+li:before {
-            content:\"»\";
-        }
-		/* PADDING VERTICAL */
-		.padding-v-xxs {
-		padding-top: 5px;
-		padding-bottom: 5px;
-		}
-		.padding-v-xs {
-		padding-top: 10px;
-		padding-bottom: 10px;
-		}
-		.padding-v-base {
-		padding-top: 15px;
-		padding-bottom: 15px;
-		}
-		.padding-v-md {
-		padding-top: 20px;
-		padding-bottom: 20px;
-		}
-		.padding-v-lg {
-		padding-top: 30px;
-		padding-bottom: 30px;
-		}
-		.line {
-		width: 100%;
-		height: 2px;
-		margin: 10px 0;
-		overflow: hidden;
-		font-size: 0;
-		}
-		.line-xs {
-		margin: 0;
-		}
-		.line-lg {
-		margin-top: 15px;
-		margin-bottom: 15px;
-		}
-		.line-dashed {
-		background-color: transparent;
-		border-bottom: 1px dashed #dee5e7 !important;
-		}
-		div.required label:after{
-			content: \" *\";
-			color: red;
-		}
-		.panbtn{
-			float:right;
-			margin: -5px 5px 0px 0px;
-		}
-		.media a{
-			color: black;
-			text-decoration: none;
-		}
-		.media:hover {
-          background-color: #f5f5f5;
-        }
-        .menu-large {
-            position: static !important;
-        }
-        .megamenu{
-            padding: 20px 0px;
-            width:100%;
-        }
-        .megamenu> li > ul {
-            padding: 0;
-            margin: 0;
-        }
-        .megamenu> li > ul > li {
-            list-style: none;
-        }
-        .megamenu> li > ul > li > a {
-            display: block;
-            padding: 3px 20px;
-            clear: both;
-            font-weight: normal;
-            line-height: 1.428571429;
-            color: #333333;
-            white-space: normal;
-        }
-        .megamenu> li ul > li > a:hover,
-        .megamenu> li ul > li > a:focus {
-            text-decoration: none;
-            color: #262626;
-            background-color: #f5f5f5;
-        }
-        .megamenu.disabled > a,
-        .megamenu.disabled > a:hover,
-        .megamenu.disabled > a:focus {
-            color: #999999;
-        }
-        .megamenu.disabled > a:hover,
-        .megamenu.disabled > a:focus {
-            text-decoration: none;
-            background-color: transparent;
-            background-image: none;
-            filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-            cursor: not-allowed;
-        }
-        .megamenu.dropdown-header {
-            color: #428bca;
-            font-size: 18px;
-        }
-        @media (max-width: 768px) {
-            .megamenu{
-                margin-left: 0 ;
-                margin-right: 0 ;
-            }
-            .megamenu> li {
-                margin-bottom: 30px;
-            }
-            .megamenu> li:last-child {
-                margin-bottom: 0;
-            }
-            .megamenu.dropdown-header {
-                padding: 3px 15px !important;
-
-            }
-            .navbar-nav .open .dropdown-menu .dropdown-header{
-                color:#fff;
-            }
-        }
-        .alert-custom {
-            color: #a15426;
-            background-color: #ffffff;
-            border: 1px solid #a15426;
-        }
-        .btn-link{
-            padding: 15px;
-        }
-        .nav-main-backend{
-		    display : none; 
-		}
-		.mywrap{
-		    margin-top: -50px;
-        }
-     ");
+    $this->registerCssFile("/uploads/adzpireImages/AdzpireCSS.css", [
+        'depends' => [\yii\bootstrap\BootstrapAsset::className()]]);
     ?>
 </head>
-<body>
+<body style="margin-top: 0px;">
 <?php $this->beginBody() ?>
 <?php $modul = \Yii::$app->controller->module; ?>
 <?php
@@ -430,7 +277,7 @@ $this->registerLinkTag([
 
 <footer class="footer">
     <div class="container-fluid">
-        <p>© 2016 PSU YII DEV <span class="label label-danger"><?php echo $modul->params['ModuleVers']; ?></span>
+        <p>© 2016 - <?php echo date('Y'); ?> PSU YII DEV <span class="label label-danger"><?php echo $modul->params['ModuleVers']; ?></span>
             <?php echo '  '.Yii::t( 'app', 'พบปัญหาในการใช้งาน ติดต่อ - ').Html::icon('envelope'); ?> :  <?php echo Html::mailto('อับดุลอาซิส ดือราแม', 'abdul-aziz.d@psu.ac.th'); ?><?php echo ' '.Html::icon('earphone').' : '.Yii::t( 'app', 'โทรศัพท์ภายใน : 2618'); ?>
             <a href="#" data-toggle="tooltip" title="<?php echo Yii::t( 'app', 'responsive_web'); ?>"><img src="<?php echo '/uploads/adzpireImages/responsive-icon.png'; ?>" width="30" height="30" /></a>
         </p>

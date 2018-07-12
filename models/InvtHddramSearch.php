@@ -5,12 +5,12 @@ namespace backend\modules\inventory\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\modules\inventory\models\FormInvttakeItems;
+use backend\modules\inventory\models\InvtHddram;
 
 /**
- * FormInvttakeItemsSearch represents the model behind the search form about `backend\modules\inventory\models\FormInvttakeItems`.
+ * InvtHddramSearch represents the model behind the search form about `backend\modules\inventory\models\InvtHddram`.
  */
-class FormInvttakeItemsSearch extends FormInvttakeItems
+class InvtHddramSearch extends InvtHddram
 {
     /**
      * @inheritdoc
@@ -43,7 +43,8 @@ class FormInvttakeItemsSearch extends FormInvttakeItems
     public function rules()
     {
         return [
-            [['ID', 'finvttakemainID', 'InvtID'], 'integer'],
+            [['id', 'invt_id', 'hdd_exist', 'ram_exist'], 'integer'],
+            [['comment'], 'safe'],
         ];
     }
 
@@ -65,18 +66,14 @@ class FormInvttakeItemsSearch extends FormInvttakeItems
      */
     public function search($params)
     {
-        $query = FormInvttakeItems::find();
+        $query = InvtHddram::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
-                'sortParam' => 'take-sort',
-            ],
-            'pagination' => [
-                'pageParam' => 'take-post'
-            ],
+			/*'pagination' => false,
+            'sort' => false,*/
         ]);
 
         $this->load($params);
@@ -89,10 +86,13 @@ class FormInvttakeItemsSearch extends FormInvttakeItems
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'ID' => $this->ID,
-            'finvttakemainID' => $this->finvttakemainID,
-            'InvtID' => $this->InvtID,
+            'id' => $this->id,
+            'invt_id' => $this->invt_id,
+            'hdd_exist' => $this->hdd_exist,
+            'ram_exist' => $this->ram_exist,
         ]);
+
+        $query->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
     }

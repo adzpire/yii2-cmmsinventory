@@ -3,18 +3,18 @@
 use yii\bootstrap\Html;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\inventory\models\FormInvttakeMain */
+/* @var $model backend\modules\inventory\models\InvtHddram */
 
 $this->params['breadcrumbs'][] = ['label' => 'หน้ารายการ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->ID, 'url' => ['view', 'id' => $model->ID]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'อัพเดต';
 ?>
-<div class="form-invttake-main-update">
+<div class="invt-hddram-update">
 
 <div class="panel panel-warning">
 	<div class="panel-heading">
 		<span class="panel-title"><?= Html::icon('edit').' '.Html::encode($this->title) ?></span>
-		<?= Html::a( Html::icon('fire').' '.'ลบ', ['delete', 'id' => $model->ID], [
+		<?= Html::a( Html::icon('fire').' '.'ลบ', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger panbtn',
             'data' => [
                 'confirm' => 'ต้องการลบข้อมูล?',
@@ -26,8 +26,6 @@ $this->params['breadcrumbs'][] = 'อัพเดต';
 	<div class="panel-body">
 	<?= $this->render('_form', [
 	  'model' => $model,
-        'staff' => $staff,
-        'loclist' => $loclist,
 	]) ?>
 	</div>
 </div>

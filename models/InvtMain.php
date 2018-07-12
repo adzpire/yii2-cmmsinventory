@@ -298,7 +298,7 @@ class InvtMain extends \yii\db\ActiveRecord
 
     public function getConcatened()
     {
-        return ' ' . $this->invt_name . ' ' . $this->invt_brand . ' (' . $this->invt_code . ')';
+        return ' ' . $this->invt_name . ' ' . $this->invt_brand . ' <span class="text-success">(' . $this->invt_code . ')</span> <span class="text-danger">['.$this->invtLocation->loc_name.']</span>';
     }
 
     /**

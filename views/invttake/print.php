@@ -10,123 +10,171 @@ $uncheckbox = '<img width="16" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUg
 <div align="center">
     <table  align="center" width="650" border="0" style="background-color:#fff;">
         <tr>
-            <td colspan="2" class="tbhead" align="right">
-                <p><strong>แบบ กทพ. 01</strong></p>
+            <td colspan="2" class="tbhead" align="center">
+                <p><strong>ใบเบิกครุภัณฑ์ทุกชนิดจากงานพัสดุ</strong></p>
+                <p><strong>คณะวิทยาการสื่อสาร</strong></p>
             </td>
         </tr>
         <tr>
-            <td colspan="2" class="tbhead" align="center">
-                <p><strong>ใบเบิกเงินสวัสดิการเกี่ยวกับการรักษาพยาบาลพนักงานมหาวิทยาลัย</strong></p>
+            <td colspan="2" class="tbhead" align="right">
+                <p>วันที่ ...<u><?php echo \Yii::$app->formatter->asDate($model->date, "long"); ?></u>....</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="tbhead" align="left">
+                <p><strong>เรียน หัวหน้างานพัสดุ</strong></p>
                 <p>&nbsp;</p>
             </td>
         </tr>
         <tr>
             <td colspan="2">
 
-                <p>ข้าพเจ้า .....<u><?php echo $model->mfSt->getFullname('th'); ?></u>
-                    ... ตำแหน่ง ...<u><?php echo $model->mfSt->position->name_th; ?></u>.....</p>
-                <p>สังกัด .....<u>คณะวิทยาการสื่อสาร</u>..... &nbsp;&nbsp;&nbsp; โทรศัพท์
-                .....<u><?php echo $intmdl->number; ?></u>.....</p>
-                <p>ป่วยเป็นโรค ...<u><?php echo $model->mf_ill; ?></u>... สถานพยาบาลที่เข้ารับการรักษา ...<u><?php echo $model->mf_hospital; ?></u>...</p>
-                <p>ขอเบิกเงินจำนวน ...<u><?php echo number_format($model->mf_want,2,'.',','); ?></u>... บาท
-                    &nbsp;( ...<u><?php echo $thaibathtext; ?></u>... ) เพื่อเป็น
-                </p>
-                <br>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->mf_choice < '3'){echo $checkedbox;}else echo $uncheckbox; ?>&nbsp;&nbsp;&nbsp;ค่ารักษาพยาบาล ค่าคลอดบุตรและทันตกรรม</p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <?php if($model->mf_choice == '1'){echo $checkedbox;}else echo $uncheckbox; ?>&nbsp;&nbsp;&nbsp;ตนเอง&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <?php if($model->mf_choice == '2'){echo $checkedbox;}else echo $uncheckbox; ?>&nbsp;&nbsp;&nbsp;ญาติสายตรง (บิดา มารดา คู่สมรส และบุตร ของข้าพเจ้า)
-                </p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->mf_choice == '3'){echo $checkedbox;}else echo $uncheckbox; ?>&nbsp;&nbsp;&nbsp;<?php echo $model->choice[3]; ?></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->mf_choice == '4'){echo $checkedbox;}else echo $uncheckbox; ?>&nbsp;&nbsp;&nbsp;เบิกจ่ายส่วนที่เกินโดยจ่ายร่วมมหาวิทยาลัย(Co-pay) เฉพาะค่าวัสดุอุปกรณ์ทางการแพทย์ และอวัยวะเทียม</p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php if($model->mf_choice == '5'){echo $checkedbox;}else echo $uncheckbox; ?>&nbsp;&nbsp;&nbsp;<?php echo $model->choice[5]; ?></p>
-                <br>
-                <p>เอกสารแนบประกอบการขอเบิก</p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $checkedbox; ?>  ใบเสร็จ และ ใบรับรองแพทย์</p>
-                <p>&nbsp;</p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ข้าพเจ้า .....<u><?php echo $model->staff->getFullname('th'); ?></u>
+                    ... ตำแหน่ง ...<u><?php echo $model->staff->position->name_th; ?></u>.....</p>
+                <p>มีความประสงค์จะขอเบิกครุภัณฑ์ตามรายการข้างล่างนี้เพื่อนำไปใช้ประจำที่ ...<u><?php echo $model->location->loc_name ?></u>....</p>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+        <th>
+            <tr>
+                <td>ลำดับที่</td>
+                <td align="center">รายการ</td>
+                <td align="center">เลขครุภัณฑ์</td>
+                <td align="center">ราคา</td>
+                <td align="center">ครอบครองโดย</td>
+            </tr>
+        </th>
+        <?php
+        $count = 1;
+        foreach ($detailmdl as $row) {
+            echo '<tr>';
+            echo '<td width="31" scope="col" align="center">' . $count . '</td>';
+            echo '<td scope="col">' . $row->invt->shortdetail . '</td>';
+            echo '<td scope="col">' . $row->invt->invt_code . '</td>';
+            echo '<td scope="col">' . $row->invt->invt_ppp . '</td>';
+            echo '<td>' . $row->invt->invt_occupyby . '</td>';
+
+            echo '</tr>';
+            $count++;
+        }
+        ?>
+
+    </table>
+    <table width="100%">
+        <tr>
+            <td colspan="2">
+                ข้าพเจ้าขอรับรองว่าครุภัณฑ์ขอเบิกไปนี้จะนำไปใช้ในงานราชการเท่านั้น
             </td>
         </tr>
         <tr>
-            <td align="center" width="319" class="tbcontent">
-                ข้าพเจ้าขอรับรองว่าข้อความข้างต้นเป็นจริงทุกประการ<br />
-                <table align="center">
-                    <tr>
-                        <td>
-                            <p>(ลงชื่อ) ....................................... ผู้ขอรับเงิน</p>
-                        </td>
-                    </tr>
-                </table>
+            <td>
+
+            </td>
+            <td>
                 <p>&nbsp;</p>
                 <table align="center">
                     <tr>
                         <td>
-                            <p>(...........................................)</p>
+                            <p>(ลงชื่อ) ....................................... ผู้ขอเบิก</p>
                         </td>
                     </tr>
                 </table>
                 <table align="center">
                     <tr>
                         <td>
-                            <p>วันที่ ...........................................</p>
+                            <p>(...<u><?php echo $model->staff->getFullname('th'); ?></u>...)</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="1" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+        <tr>
+            <td width="319" class="tbcontent">
+                <strong>เรียน หัวหน้างานพัสดุ</strong><br />
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เพื่อโปรดพิจารณา .............................................................</p>
+                <p>...................................................................................................</p>
+                <p>...................................................................................................</p>
+                <p>&nbsp;</p>
+                <table align="center">
+                    <tr>
+                        <td>
+                            <p>(ลงชื่อ) ....................................... เจ้าหน้าที่พัสดุ</p>
+                        </td>
+                    </tr>
+                </table>
+                <table align="center">
+                    <tr>
+                        <td>
+                            <p>(...<u>นางยุพดี อุดมพงษ์</u>...)</p>
                         </td>
                     </tr>
                 </table>
             </td>
             <td align="center"  width="319" class="tbcontent">
-                <p align="center"><strong>อนุมัติให้เบิกจ่ายได้</strong></p>
+                <p align="center"><strong>ความเห็นหัวหน้างานพัสดุ</strong></p>
+                <p>...................................................................................................</p>
+                <p>...................................................................................................</p>
+                <p>...................................................................................................</p>
                 <p>&nbsp;</p>
                 <table align="center">
                     <tr>
                         <td>
-                            <p>(ลงชื่อ) .........................................</p>
-                        </td>
-                    </tr>
-                </table>
-                <p>&nbsp;</p>
-                <table align="center">
-                    <tr>
-                        <td>
-                            <p>( ........................................................ )</p>
+                            <p>(ลงชื่อ) ......................................... หัวหน้างานพัสดุ</p>
                         </td>
                     </tr>
                 </table>
                 <table align="center">
                     <tr>
                         <td>
-                            <p>ตำแหน่ง ........................................</p>
-                        </td>
-                    </tr>
-                </table>
-                <table align="center">
-                    <tr>
-                        <td>
-                            <p>วันที่ ...........................................</p>
+                            <p>( ...<u>นางแก่นจันทร์ มูสิกธรรม</u>... )</p>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td colspan="2" class="tbcontent">
-                <table align="center">
-                    <tr>
-                        <td><strong>ใบรับเงิน</strong></td>
-                    </tr>
-                </table>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ข้าพเจ้าได้รับเงินสวัสดิการเกี่ยวกับการรักษาพยาบาล จำนวน ...<u><?php echo number_format($model->mf_want,2,'.',','); ?></u>... บาท<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;( ...<u><?php echo $thaibathtext; ?></u>... ) ไปถูกต้องแล้ว
-                </p>
+            <td class="tbcontent">
+                <p><strong>ข้าพเจ้าได้จ่ายของครบถ้วนตามรายการที่ได้ขอเบิก</strong></p>
+
                 <table align="center">
                     <tr>
                         <td>
-                            (ลงชื่อ) .............................................. ผู้รับเงิน
+                            (ลงชื่อ) .............................................. ผู้จ่ายของ
                         </td>
                     </tr>
                 </table>
                 <table align="center">
                     <tr>
                         <td>
-                            ( ..................................................... )
+                            ( ...<u>นางยุพดี อุดมพงษ์</u>... )
+                        </td>
+                    </tr>
+                </table>
+                <table align="center">
+                    <tr>
+                        <td>
+                            <p>วันที่ ............................................. </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="tbcontent">
+                <p><strong>ข้าพเจ้าได้ตรวจรับครภัณฑ์ที่ขอเบิกครบถ้วนแล้ว</strong></p>
+
+                <table align="center">
+                    <tr>
+                        <td>
+                            (ลงชื่อ) .............................................. ผู้รับของ
+                        </td>
+                    </tr>
+                </table>
+                <table align="center">
+                    <tr>
+                        <td>
+                            ( ...<u><?php echo $model->staff->getFullname('th'); ?></u>... )
                         </td>
                     </tr>
                 </table>

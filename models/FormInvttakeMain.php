@@ -1,9 +1,14 @@
 <?php
 
-namespace backend\modules\dochub\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
+
+use backend\modules\location\models\MainLocation;
+use backend\modules\person\models\Person;
 /**
  * This is the model class for table "form_invttake_main".
  *

@@ -122,7 +122,7 @@ class InvtMainSearch extends InvtMain
         // grid filtering conditions
         $query->andFilterWhere([
             self::tableName().'.id' => $this->id,
-            'invt_locationID' => $this->invt_locationID,
+//            'invt_locationID' => $this->invt_locationID,
             'invt_typeID' => $this->invt_typeID,
             'invt_bdgttypID' => $this->invt_bdgttypID,
             'invt_statID' => $this->invt_statID,
@@ -133,7 +133,7 @@ class InvtMainSearch extends InvtMain
             'invt_checkindate' => $this->invt_checkindate,
             'invt_guarunteedateend' => $this->invt_guarunteedateend,
             'invt_takeoutdate' => $this->invt_takeoutdate,
-            //'invt_date' => $this->invt_date,
+            'main_location.id' => $this->lname,
         ]);
 
         $query->andFilterWhere(['like', 'invt_code', $this->invt_code])
@@ -144,7 +144,7 @@ class InvtMainSearch extends InvtMain
             ->andFilterWhere(['like', 'invt_occupyby', $this->invt_occupyby])
             ->andFilterWhere(['like', 'invt_note', $this->invt_note])
             ->andFilterWhere(['like', 'invt_buyfrom', $this->invt_buyfrom])
-        ->andFilterWhere(['like', 'main_location.id', $this->lname])
+//        ->andFilterWhere(['like', 'main_location.id', $this->lname])
         //->andFilterWhere(['like', 'main_location.loc_name', $this->lname])
         ->andFilterWhere(['like', 'invt_status.id', $this->sname])
         //->andFilterWhere(['like', 'invt_status.invt_sname', $this->sname])

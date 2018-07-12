@@ -1,14 +1,14 @@
 <?php
 
-namespace backend\modules\dochub\models;
+namespace backend\modules\inventory\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\modules\dochub\models\FormInvttakeMain;
+use backend\modules\inventory\models\FormInvttakeMain;
 
 /**
- * FormInvttakeMainSearch represents the model behind the search form about `backend\modules\dochub\models\FormInvttakeMain`.
+ * FormInvttakeMainSearch represents the model behind the search form about `backend\modules\inventory\models\FormInvttakeMain`.
  */
 class FormInvttakeMainSearch extends FormInvttakeMain
 {

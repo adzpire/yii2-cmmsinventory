@@ -10,7 +10,7 @@ use backend\modules\inventory\models\InvtMain;
 /**
  * InvtMainSearch represents the model behind the search form about `backend\modules\inventory\models\InvtMain`.
  */
-class InvtMainSearch extends InvtMain
+class InvtMainTakeSearch extends InvtMain
 {
     /**
      * @inheritdoc
@@ -43,6 +43,7 @@ class InvtMainSearch extends InvtMain
     public $tname;
     public $lname;
     public $sname;
+    public $itd;
     public function rules()
     {
         return [
@@ -91,11 +92,17 @@ class InvtMainSearch extends InvtMain
     {
         $query = InvtMain::find();
         $query->joinWith(['invtLocation', 'invtType', 'invtStat']); // weCr.userPro - 2layer relation
-
+        $query->andWhere(['NOT IN', self::tableName().'.id', $this->itd]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'sortParam' => 'invt-sort',
+            ],
+            'pagination' => [
+                'pageParam' => 'invt-post'
+            ],
         ]);
 
         $this->load($params);

@@ -1,8 +1,9 @@
 <?php
 
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
-
+use Da\QrCode\QrCode;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\inventory\models\InvtMain */
 
@@ -25,8 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 	<div class="panel-body">
         <?php
-        //Yii::$app->formatter->locale = 'es-ES';
-        //echo Yii::$app->formatter->asCurrency(1202.57, 'THB');
+		// echo \Yii::$app->request->requestUrl; 
+		// echo Url::to(['default/qrproc', 'id' => $_GET['id']], true);
+		// echo Yii::$app->createAbsoluteUrl(Yii::$app->request->url);
+        $qrCode = (new QrCode(Url::to(['default/qrproc', 'id' => $_GET['id']], true)))
+		->setSize(100)
+		->setMargin(5)
+		->useForegroundColor(0, 0, 0);
+		echo '<img src="' . $qrCode->writeDataUri() . '">';
         ?>
     <?= DetailView::widget([
         'model' => $model,

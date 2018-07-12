@@ -6,7 +6,7 @@ use yii\bootstrap\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\inventory\models\InvtLochistory */
 
-$this->params['breadcrumbs'][] = ['label' => Yii::t('inventory/app', 'Invt Lochistories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('inventory/app', 'ย้ายสถานที่'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="invt-lochistory-create">

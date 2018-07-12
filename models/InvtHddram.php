@@ -5,41 +5,41 @@ namespace backend\modules\inventory\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 /**
- * This is the model class for table "form_invttake_items".
+ * This is the model class for table "invt_hddram".
  *
  
- * @property integer $ID
- * @property integer $finvttakemainID
- * @property integer $InvtID
+ * @property integer $id
+ * @property integer $invt_id
+ * @property integer $hdd_exist
+ * @property integer $ram_exist
+ * @property string $comment
  * @property InvtMain $invt
- * @property FormInvttakeMain $finvttakemain
  */
-class FormInvttakeItems extends \yii\db\ActiveRecord
+class InvtHddram extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'form_invttake_items';
+        return 'invt_hddram';
     }
 
 public $invtName; 
-public $finvttakemainName; 
 /*add rule in [safe]
-'invtName', 'finvttakemainName', 
+'invtName', 
 join in searh()
-$query->joinWith(['invt', 'finvttakemain', ]);*/
+$query->joinWith(['invt', ]);*/
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['finvttakemainID', 'InvtID'], 'required'],
-            [['finvttakemainID', 'InvtID'], 'integer'],
-            [['InvtID'], 'exist', 'skipOnError' => true, 'targetClass' => InvtMain::className(), 'targetAttribute' => ['InvtID' => 'id']],
-            [['finvttakemainID'], 'exist', 'skipOnError' => true, 'targetClass' => FormInvttakeMain::className(), 'targetAttribute' => ['finvttakemainID' => 'ID']],
+            [['invt_id', 'hdd_exist', 'ram_exist', 'comment'], 'required'],
+            [['invt_id', 'hdd_exist', 'ram_exist'], 'integer'],
+            [['comment'], 'string'],
+            [['invt_id'], 'exist', 'skipOnError' => true, 'targetClass' => InvtMain::className(), 'targetAttribute' => ['invt_id' => 'id']],
         ];
     }
 
@@ -49,9 +49,11 @@ $query->joinWith(['invt', 'finvttakemain', ]);*/
     public function attributeLabels()
     {
         return [
-            'ID' => 'ID',
-            'finvttakemainID' => 'forminventorytakemainID',
-            'InvtID' => 'inventory ID',
+            'id' => 'ID',
+            'invt_id' => 'สิ่งของ',
+            'hdd_exist' => 'ฮาร์ดดิสก์ที่มี',
+            'ram_exist' => 'แรมที่มี',
+            'comment' => 'ความเห็น',
         ];
     }
 
@@ -60,7 +62,7 @@ $query->joinWith(['invt', 'finvttakemain', ]);*/
      */
     public function getInvt()
     {
-        return $this->hasOne(InvtMain::className(), ['id' => 'InvtID']);
+        return $this->hasOne(InvtMain::className(), ['id' => 'invt_id']);
 		
 			/*
 			$dataProvider->sort->attributes['invtName'] = [
@@ -75,7 +77,7 @@ $query->joinWith(['invt', 'finvttakemain', ]);*/
 			[
 				'attribute' => 'invtName',
 				'value' => 'invt.name',
-				'label' => $searchModel->attributeLabels()['InvtID'],
+				'label' => $searchModel->attributeLabels()['invt_id'],
 				'filter' => \InvtMain::invtList,
 			],
 			*/
@@ -86,51 +88,14 @@ $query->joinWith(['invt', 'finvttakemain', ]);*/
         $data = $this->invt;
         $doc = '<ul>';
         foreach($data as $key) {
-            $doc .= '<li>'.$key->InvtID.'</li>';
+            $doc .= '<li>'.$key->invt_id.'</li>';
         }
         $doc .= '</ul>';
         return $doc;
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getFinvttakemain()
-    {
-        return $this->hasOne(FormInvttakeMain::className(), ['ID' => 'finvttakemainID']);
-		
-			/*
-			$dataProvider->sort->attributes['finvttakemainName'] = [
-				'asc' => ['form_invttake_main.name' => SORT_ASC],
-				'desc' => ['form_invttake_main.name' => SORT_DESC],
-			];
-			
-			->andFilterWhere(['like', 'form_invttake_main.name', $this->finvttakemainName])
-			->orFilterWhere(['like', 'form_invttake_main.name1', $this->finvttakemainName])
-
-			in grid
-			[
-				'attribute' => 'finvttakemainName',
-				'value' => 'finvttakemain.name',
-				'label' => $searchModel->attributeLabels()['finvttakemainID'],
-				'filter' => \FormInvttakeMain::finvttakemainList,
-			],
-			*/
-    }
-	
-	public function getFinvttakemainList()
-    {
-        $data = $this->finvttakemain;
-        $doc = '<ul>';
-        foreach($data as $key) {
-            $doc .= '<li>'.$key->finvttakemainID.'</li>';
-        }
-        $doc .= '</ul>';
-        return $doc;
-    }
-
-public function getFormInvttakeItemsList(){
-		return ArrayHelper::map(self::find()->all(), 'ID', 'title');
+public function getInvtHddramList(){
+		return ArrayHelper::map(self::find()->all(), 'id', 'title');
 	}
 
 /*
